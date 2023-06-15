@@ -1,5 +1,5 @@
 O script abaixo gera o PCA de um .csv que esteja devidamente rotulado. Por exemplo: no caso do dataset Eurogenes, lemos o .csv e o atribuímos para a variável seuDataset. Depois, definimos que os rótulos serão a primeira coluna do dataset. Eles serão necessários, pois precisamos ver os nomes das etnias, e não somente os pontos no gráfico. Em seguida, atualizamos o  seuDataset excluindo a primeira coluna dele (usada para os rótulos) ao selecionar apenas a partir da segunda coluna até n, onde n é o número da última coluna. No caso do Eurogenes, o n será 14 e no MDLP 22, será 23. 
-```
+``` 
 seuDataset <- read.csv(" local do arquivo ”)
 rownames(seuDataset) <- seuDataset[,1] 
 seuDataset <- seuDataset[,2:n]
@@ -8,9 +8,12 @@ seuDataset <- seuDataset[,2:n]
 ```
 library(ggfortify)
 pca_res <- prcomp(seuDataset, scale.=TRUE)
+ ``` 
+Chamamos o pacote ggortify, e realizamos a análise dos componentes principais utilizando o prcomp. É possível omitir o scale. = TRUE caso você não queira realizar a normalização dos dados. Após isso, plotamos o gráfico com base na lista de valores retornada por prcomp
+	
 ```
-	Chamamos o pacote ggortify, e realizamos a análise dos componentes principais utilizando o prcomp. É possível omitir o scale. = TRUE caso você não queira realizar a normalização dos dados. Após isso, plotamos o gráfico com base na lista de valores retornada por prcomp
-```autoplot(pca_res, x = 1, y = 2, label = TRUE, label.size = 3)```
+autoplot(pca_res, x = 1, y = 2, label = TRUE, label.size = 3)
+```
 ou
 ```
 pcaplot<-ggplot(df_pca,aes(x=PC1,y=PC2,label = rownames(seuDataset) ))+geom_text(size = 3)
