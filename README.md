@@ -1,3 +1,10 @@
+# Visualização de dados de alta dimensão utilizando R
+
+## Datasets utilizados
+Os datasets utilizados foram os spreadsheets das calculadoras do GEDmatch: Eurogenes K13 e MDLP 22.
+As tabelas foram pre-processadas antes de serem utilizadas. Para fins de estudo, resolvemos focar nas etnias judaicas e nos grupos que tiveram contato cultural mais substancial com os grupos judaicos. Removemos etnias que não estavam dentro do escopo do trabalho. Neste reositório você encontra as tabelas intocadas (K13full e K22full) e também as processadas (K3limpo e K22limpo). Fazendo os devidos ajustes, sinta-se livre para usar outras tabelas.
+
+## PCA, t-SNE e UMAP
 O script abaixo gera o PCA de um .csv que esteja devidamente rotulado. Por exemplo: no caso do dataset Eurogenes, lemos o .csv e o atribuímos para a variável seuDataset. Depois, definimos que os rótulos serão a primeira coluna do dataset. Eles serão necessários, pois precisamos ver os nomes das etnias, e não somente os pontos no gráfico. Em seguida, atualizamos o  seuDataset excluindo a primeira coluna dele (usada para os rótulos) ao selecionar apenas a partir da segunda coluna até n, onde n é o número da última coluna. No caso do Eurogenes, o n será 14 e no MDLP 22, será 23. 
 ``` R
 seuDataset <- read.csv(" local do arquivo ”)
@@ -37,7 +44,7 @@ umap <- umap(seuDataset, method="naive")
 df <- data.frame(x = umap$layout[,1], y = umap$layout[,2])
 ggplot(df, aes(x, y, label = rownames(seuDataset))) + geom_text(size = 3)
 ```
-
+## microbenchmark
 Aplicamos o pacote Microbenchmark para avaliar os três métodos. Segundo a documentação do R, O Microbenchmark é um pacote de funções de temporização precisas, e “fornece infraestrutura para medir e comparar com precisão o tempo de execução de expressões R.
 A utilização do microbenchmark é simples:. 
 ```R
@@ -119,8 +126,12 @@ mbm <- microbenchmark(
 ```
 Iniciamos chamando os pacotes necessários para a análise. Depois, chamamos o microbenchmark, passando como parâmetro os diversos códigos aos quais desejamos comparar - quatro situações foram testadas em cada um dos datasets: PCA, t-SNE com perplexidade alta (34 no MDLP, 18 no Eurogenes), t-SNE com perplexidade baixa (3), UMAP.  
 Para ver a lista de valores coletados, como (média mediana, menor valor, maior valor, etc):
-```mbm```
+```R
+mbm
+```
 Para ver o gráfico de violino:
-```autoplot(mbm)```
+```R
+autoplot(mbm)
+```
 
 No caso de quaisquer dúvidas ou sugestões, sinta-se livre para contactar-me pelo e-mail matheusyhwh@gmail.com
