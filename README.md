@@ -1,27 +1,27 @@
 O script abaixo gera o PCA de um .csv que esteja devidamente rotulado. Por exemplo: no caso do dataset Eurogenes, lemos o .csv e o atribuímos para a variável seuDataset. Depois, definimos que os rótulos serão a primeira coluna do dataset. Eles serão necessários, pois precisamos ver os nomes das etnias, e não somente os pontos no gráfico. Em seguida, atualizamos o  seuDataset excluindo a primeira coluna dele (usada para os rótulos) ao selecionar apenas a partir da segunda coluna até n, onde n é o número da última coluna. No caso do Eurogenes, o n será 14 e no MDLP 22, será 23. 
-``` 
+``` R
 seuDataset <- read.csv(" local do arquivo ”)
 rownames(seuDataset) <- seuDataset[,1] 
 seuDataset <- seuDataset[,2:n]
 ```
 É indispensável a instalação de todos os pacotes antes do uso.  Caso ainda não possua os pacotes necessários (ggfortify, Rtsne e umap), basta ir em Pacotes > Instalar Pacotes e procurar por eles e realizar a instalação, e em seguida rodar o código abaixo. 
-```
+```R
 library(ggfortify)
 pca_res <- prcomp(seuDataset, scale.=TRUE)
  ``` 
 Chamamos o pacote ggortify, e realizamos a análise dos componentes principais utilizando o prcomp. É possível omitir o scale. = TRUE caso você não queira realizar a normalização dos dados. Após isso, plotamos o gráfico com base na lista de valores retornada por prcomp
 	
-```
+```R
 autoplot(pca_res, x = 1, y = 2, label = TRUE, label.size = 3)
 ```
 ou
-```
+```R
 pcaplot<-ggplot(df_pca,aes(x=PC1,y=PC2,label = rownames(seuDataset) ))+geom_text(size = 3)
 print(pcaplot)
 ```
 O pacote prcomp realiza a análise de Componentes Principais nos dados fornecidos. O valor retornado é usado para a construção do gráfico através do pacote ggplot2 ou da função genérica autoplot. O gráfico terá duas dimensões. Os outros parâmetros fazem com que seja utilizado o rótulo das amostras ao invés do ponto, e o tamanho da fonte do rótulo é setado. Por fim, o software apresentará a tela com os rótulos dispostos com suas respectivas distâncias.
 Para realizar a plotagem do t-SNE, utiliza-se o script:
-```
+```R
 library(Rtsne)
 tsne <- Rtsne(seuDataset, check_duplicates=FALSE, perplexity = 89)
 df_tsne <- data.frame(x = tsne$Y[,1], y = tsne$Y[,2])
@@ -31,7 +31,7 @@ print(tsneplot)
 O pacote Rtsne realiza a plotagem do t-SNE no dataset passado como parâmetro. Caso ocorram valores duplicados ou duas ou mais amostras de uma mesma etnia, pode-se opcionalmente  removê-las sentando check_duplicates para TRUE. Em termos práticos, a perplexidade diz respeito ao modo de agrupamentos: quanto menor for a perplexidade, mais ilhas com menor quantidade de componentes haverão; e quanto maior, mais dispersa a representação será. Além da perplexidade, podemos realizar diversas outras alterações, como o o número máximo de iterações, e o valor de theta, que diz respeito ao trade-off entre velocidade e acurácia, sendo 0 o valor do t-SNE original, com maior acurácia, e 1 o valor para maior rapidez e menos acurácia (sendo o valor default 0.5). Utilizamos todos os valores default, e testamos uma perplexidade alta e uma baixa.
 Por fim, o UMAP: Chamamos o pacote umap, utilizamos o método default Naive, preparamos o dataframe e plotamos, semelhantemente ao realizado nos métodos anteriores.
 
-```
+```R
 library(umap)
 umap <- umap(seuDataset, method="naive")
 df <- data.frame(x = umap$layout[,1], y = umap$layout[,2])
@@ -40,7 +40,7 @@ ggplot(df, aes(x, y, label = rownames(seuDataset))) + geom_text(size = 3)
 
 Aplicamos o pacote Microbenchmark para avaliar os três métodos. Segundo a documentação do R, O Microbenchmark é um pacote de funções de temporização precisas, e “fornece infraestrutura para medir e comparar com precisão o tempo de execução de expressões R.
 A utilização do microbenchmark é simples:. 
-```
+```R
 library(ggplot2)
 library(ggfortify)
 library(microbenchmark)
@@ -57,7 +57,7 @@ mbm <- microbenchmark(
 ```
 
 Para realizar esta análise, o código abaixo foi utilizado:
-```
+```R
 library(ggplot2)
 library(ggfortify)
 library(microbenchmark)
