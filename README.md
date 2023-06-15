@@ -2,7 +2,7 @@
 
 ## Datasets utilizados
 Os datasets utilizados foram os spreadsheets das calculadoras do GEDmatch: Eurogenes K13 e MDLP 22.
-As tabelas foram pre-processadas antes de serem utilizadas. Para fins de estudo, resolvemos focar nas etnias judaicas e nos grupos que tiveram contato cultural mais substancial com os grupos judaicos. Removemos etnias que não estavam dentro do escopo do trabalho. Neste reositório você encontra as tabelas intocadas (K13full e K22full) e também as processadas (K3limpo e K22limpo). Fazendo os devidos ajustes, sinta-se livre para usar outras tabelas.
+As tabelas foram pre-processadas antes de serem utilizadas. Para fins de estudo, resolvemos focar nas etnias judaicas e nos grupos que tiveram contato cultural mais substancial com os grupos judaicos. Removemos etnias que não estavam dentro do escopo do trabalho. Neste repositório você encontra as tabelas intocadas (K13full e K22full) e também as processadas (K3limpo e K22limpo). Fazendo os devidos ajustes, sinta-se livre para usar outras tabelas.
 
 ## PCA, t-SNE e UMAP
 O script abaixo gera o PCA de um .csv que esteja devidamente rotulado. Por exemplo: no caso do dataset Eurogenes, lemos o .csv e o atribuímos para a variável seuDataset. Depois, definimos que os rótulos serão a primeira coluna do dataset. Eles serão necessários, pois precisamos ver os nomes das etnias, e não somente os pontos no gráfico. Em seguida, atualizamos o  seuDataset excluindo a primeira coluna dele (usada para os rótulos) ao selecionar apenas a partir da segunda coluna até n, onde n é o número da última coluna. No caso do Eurogenes, o n será 14 e no MDLP 22, será 23. 
